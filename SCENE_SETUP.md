@@ -10,6 +10,12 @@ The shelf was configured to have two levels. The items on the shelf should be ar
 
 Note: The arrangements of these items can be changed, but these changes must also be reflected in the [MCP server script](./src/retail_demo_mcp_server.py). 
 
+Shelf Arrangement:
+![Shelf Items Arrangement](./assets/shelf_arrangement.jpg)
+
+G1 Initial Position Facing Shelf:
+![G1 Initial Position](./assets/g1_facing_shelf.jpg)
+
 ## SLAM Navigation Setup
 1. Position the G1 to face the shelf from a short distance away (~43cm away). 
 2. Start the G1's SLAM mapping function (follow G1's manual for this).
