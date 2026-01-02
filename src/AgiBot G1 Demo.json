@@ -1,0 +1,150 @@
+{
+  "name": "AgiBot G1 Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi. I'm the AgiBot G1.\nWhat can I get for you today?",
+        "options": {
+          "subtitle": "G1 Store Assistant",
+          "title": "Mr Robot Store"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -352,
+        -64
+      ],
+      "id": "32685daa-cb94-4586-9992-2f9d298c624b",
+      "name": "When chat message received",
+      "webhookId": "3fc0568a-3fe7-458e-a7c9-80ce7f62d462"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -128,
+        160
+      ],
+      "id": "19a4e5ef-c667-4651-abbc-35b563bba1fe",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "mwFXy1JKV65XheB5",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a robot controller who can control a robot working in a supermarket. The robot's task is to help customer grab the items that they want. Interact with the customers in a polite and professional tone. Assist the customer by using the tools you have to grab the correct items. \n\nThe following are items you can grab: [large chip, small chip, small bottle, 100 plus]. Use the tool to grab the item that has the closest match to the item requested by the customer (e.g. if the customer asks for \"Large Chips\", grab the \"large chip\")."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        -64
+      ],
+      "id": "c5887a91-a087-43bc-a7ac-8e75216f6da4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://127.0.0.1:8000/mcp",
+        "options": {
+          "timeout": 1000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        160
+      ],
+      "id": "76209d5b-2867-4476-853b-73f888536539",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        160
+      ],
+      "id": "a18771f5-2370-4360-8a27-ccf05394a796",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "226af845-edab-4ac6-8a93-e0cdcae2fd5e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b35f6e30090394e7755f490e78071f1b1f7c0eb63d955ecaec04dacc8d1075b4"
+  },
+  "id": "ihkDDElcuY0dRy2q",
+  "tags": []
+}
